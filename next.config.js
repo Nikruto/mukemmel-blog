@@ -1,10 +1,3 @@
-module.exports = {
-  webpack: config => {
-    config.module.rules.push({
-      test: /\.md$/,
-      use: "raw-loader"
-    });
+const withCSS = require('@zeit/next-css');
 
-    return config;
-  }
-};
+module.exports = withCSS();
