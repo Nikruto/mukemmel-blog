@@ -1,84 +1,81 @@
-import React from "react";
-import fetch from "isomorphic-unfetch";
-import Head from "next/head";
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import React from 'react';
+import fetch from 'isomorphic-unfetch';
+import Head from 'next/head';
+import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 
-const BlogPost = ({ post }) => (
-  <div className="container">
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+import Hero from '../components/Hero.js';
+import bookmarkParser from '../src/bookmarkParser.js';
 
-    <div className="hero">
-      <h1 className="hero-title">Selman Kahya</h1>
-      <div className="hero-social-links">
-        <Link href="https://medium.com/@selmankahya">
-          <a className="social-link">Medium</a>
-        </Link>
-        <Link href="https://www.twitter.com/selmankahyax">
-          <a className="social-link">Twitter</a>
-        </Link>
-        <Link href="https://www.linkedin.com/in/selmankahya">
-          <a className="social-link">LinkedIn</a>
-        </Link>
-        <Link href="https://www.instagram.com/selmankahyax/?hl=en">
-          <a className="social-link">Instagram</a>
-        </Link>
+import '../styles/main.css';
+import notBookmarked from '../src/img/bookmark1.png';
+import bookmarked from '../src/img/bookmark2.png';
+
+class BlogPost extends React.Component {
+  constructor(props) {
+    super(props);
+    this.post = {};
+  }
+
+  async componentDidMount() {
+    // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
+    const res = await fetch(
+      `http://localhost:3000/api/post/${this.props.postId}`
+    );
+    const json = await res.json();
+    this.post = json.post;
+    this.post.isBookmarked = bookmarkParser.isBookmarked(this.post.slug);
+    this.setState({});
+  }
+  render() {
+    return (
+      <div className="container">
+        <Head>
+          <title>Home</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <Hero />
+        {this.post ? (
+          <div className="blog">
+            <div className="blog-wrapper">
+              <div className="head">
+                <h2 className="blog-title">
+                  <Link href={`/${this.post.slug}`}>
+                    <a className="blog-title-link">{this.post.title}</a>
+                  </Link>
+                </h2>
+                <div className="bookmark-wrapper">
+                  <img
+                    className="bookmark"
+                    src={this.post.isBookmarked ? bookmarked : notBookmarked}
+                    onClick={() => {
+                      //console.log(post.isBookmarked);
+                      if (this.post.isBookmarked) {
+                        bookmarkParser.removeBookmark(this.post.slug);
+                      } else {
+                        bookmarkParser.addBookmark(this.post.slug);
+                      }
+                      this.post.isBookmarked = !this.post.isBookmarked;
+                      this.setState({});
+                    }}
+                  ></img>
+                </div>
+              </div>
+              <div className="blog-text">
+                <p>{this.post.details}</p>
+              </div>
+              <div className="blog-date">{this.post.date}</div>
+            </div>
+          </div>
+        ) : null}
       </div>
-    </div>
+    );
+  }
+}
 
-    <div className="blog">
-      <h2 className="blog-title">
-        <Link href="/test">
-          <a className="blog-title-link">{post.title}</a>
-        </Link>
-      </h2>
-      <div className="blog-text">
-        <ReactMarkdown source={post.details} />
-      </div>
-      <div className="blog-date">{post.date}</div>
-    </div>
-    <style jsx>{`
-      .container {
-        max-width: 650px;
-        width: 100%;
-        margin: 0 auto;
-      }
-
-      .hero {
-        text-align: center;
-        margin: 96px 0;
-      }
-
-      .social-link {
-        margin-right: 8px;
-      }
-
-      .hero-title {
-        font-size: 48px;
-      }
-
-      .blog-date {
-        text-align: right;
-        color: #cccccc;
-        margin: 12px 0 48px 0;
-      }
-
-      a {
-        color: #35459e;
-        text-decoration: none;
-      }
-    `}</style>
-  </div>
-);
-
-BlogPost.getInitialProps = async ({ req, query }) => {
-  // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch(`http://localhost:3000/api/post/${query.postId}`);
-  const json = await res.json();
-  return { post: json.post };
+BlogPost.getInitialProps = ({ req, query }) => {
+  return { postId: query.postId };
 };
 
 export default BlogPost;

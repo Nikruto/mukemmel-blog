@@ -11,9 +11,22 @@
   margin: 48px 0 96px;
 }
 
-.social-link {
-  width: 30px;
-  height: 30px;
+.hero-title {
+  font-size: 48px;
+  font-family: 'Nunito Sans';
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.hero-title a {
+  text-decoration: none;
+  color: black;
+}
+
+.hero-desc {
+  margin-top: 0px;
+  font-family: 'Nunito Sans';
+  font-weight: 300;
 }
 
 .hero-social-links {
@@ -22,12 +35,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-}
-.hero-title {
-  font-size: 48px;
-  font-family: 'Nunito Sans';
-  font-weight: 600;
-  margin-bottom: 0px;
 }
 
 .hero-social-toggle {
@@ -39,16 +46,29 @@
   cursor: pointer;
 }
 
-.hero-desc {
-  margin-top: 0px;
-  font-family: 'Nunito Sans';
-  font-weight: 300;
+.hero-social-links-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.social-link {
+  width: 30px;
+  height: 30px;
 }
 
 .blog {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin: 10px;
+}
+
+.blog-wrapper {
+  margin: 20px;
+}
+
+.blog-list {
+  display: flex;
+  flex-direction: column;
 }
 
 .blog .head {
@@ -65,20 +85,12 @@
   cursor: pointer;
 }
 
-.blog-wrapper {
-  margin: 20px;
-}
-
 .blog-date {
   text-align: right;
   color: #cccccc;
   margin-top: 12px;
 }
 
-.blog-list {
-  display: flex;
-  flex-direction: column;
-}
 a {
   color: #35459e;
   text-decoration: none;
