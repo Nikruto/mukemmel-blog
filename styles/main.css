@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Inconsolata|Nunito+Sans:300,400,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
 
 .container {
   max-width: 650px;
@@ -77,6 +77,12 @@
   justify-content: space-between;
 }
 
+.blog .head .blog-title .blog-title-link {
+  color: #35459e;
+  text-decoration: none;
+  font-family: 'Nunito Sans';
+}
+
 .blog .head .bookmark-wrapper .bookmark {
   width: 20px;
 }
@@ -91,8 +97,12 @@
   margin-top: 12px;
 }
 
-a {
-  color: #35459e;
-  text-decoration: none;
+p {
   font-family: 'Nunito Sans';
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }

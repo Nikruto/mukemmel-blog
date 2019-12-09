@@ -18,7 +18,6 @@ class BlogPost extends React.Component {
   }
 
   async componentDidMount() {
-    // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
     const res = await fetch(
       `http://localhost:3000/api/post/${this.props.postId}`
     );

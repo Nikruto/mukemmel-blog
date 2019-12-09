@@ -66,7 +66,11 @@ class Home extends React.Component {
                   </div>
                 </div>
                 <div className="blog-text">
-                  <p>{post.details}</p>
+                  <Link href={post.slug}>
+                    <a>
+                      <p>{post.shortDesc}</p>
+                    </a>
+                  </Link>
                 </div>
                 <div className="blog-date">{post.date}</div>
               </div>
@@ -77,4 +81,5 @@ class Home extends React.Component {
     );
   }
 }
+
 export default Home;
