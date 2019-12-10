@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 
 import Hero from '../components/Hero.js';
 import bookmarkParser from '../src/bookmarkParser.js';
+import dateToTurkish from '../src/dateToTurkish.js';
 
 import '../styles/main.css';
 import notBookmarked from '../src/img/bookmark1.png';
@@ -14,7 +15,7 @@ import bookmarked from '../src/img/bookmark2.png';
 class BlogPost extends React.Component {
   constructor(props) {
     super(props);
-    this.post = {};
+    this.post = null;
   }
 
   async componentDidMount() {
@@ -64,7 +65,9 @@ class BlogPost extends React.Component {
               <div className="blog-text">
                 <p>{this.post.details}</p>
               </div>
-              <div className="blog-date">{this.post.date}</div>
+              <div className="blog-date">
+                {dateToTurkish(new Date(this.post.date))}
+              </div>
             </div>
           </div>
         ) : null}

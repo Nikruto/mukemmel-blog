@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 
 import Hero from '../components/Hero.js';
 import bookmarkParser from '../src/bookmarkParser.js';
+import dateToTurkish from '../src/dateToTurkish.js';
 
 import '../styles/main.css';
 
@@ -72,7 +73,9 @@ class Home extends React.Component {
                     </a>
                   </Link>
                 </div>
-                <div className="blog-date">{post.date}</div>
+                <div className="blog-date">
+                  {dateToTurkish(new Date(post.date))}
+                </div>
               </div>
             </div>
           ))}
