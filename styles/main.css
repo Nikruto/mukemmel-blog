@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
 
+p {
+  font-family: 'Nunito Sans';
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .container {
   max-width: 650px;
   width: 100%;
@@ -97,12 +107,30 @@
   margin-top: 12px;
 }
 
-p {
-  font-family: 'Nunito Sans';
-  font-weight: 400;
+.Pagination {
+  width: fit-content;
+  margin: 20px auto 10px;
+  display: flex;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-a {
-  text-decoration: none;
-  color: black;
+.Pagination .PageCounter {
+  font-family: 'Nunito Sans';
+  font-weight: 600;
+  padding: 10px 20px 10px 20px;
+  color: #35459e;
+}
+
+.Pagination .PageCounter:hover {
+  cursor: pointer;
+}
+
+.Pagination .PageCounter:not(:first-child) {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#PaginationActivePage {
+  background-color: #35459e;
+  color: white;
 }

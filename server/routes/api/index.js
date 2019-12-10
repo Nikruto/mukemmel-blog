@@ -4,11 +4,35 @@ const mongoose = require('mongoose');
 const Post = require('../../models/post.js');
 
 route.get('/posts', (req, res) => {
-  Post.find({}, (err, posts) => {
+  if (req.query.from && req.query.to) {
+    let { from, to } = req.query;
+    console.log(from, to);
+    Post.find({})
+      .sort({ date: -1 })
+      .skip(from - 1)
+      .limit(to - from + 1)
+      .exec((err, posts) => {
+        if (err) return console.err(err);
+
+        if (posts) res.json({ posts: posts });
+        else res.json({});
+      });
+  } else {
+    Post.find({}, (err, posts) => {
+      if (err) return console.err(err);
+
+      if (posts) res.json({ posts: posts });
+      else res.json({});
+    });
+  }
+});
+
+route.get('/postcount', (req, res) => {
+  Post.countDocuments({}, (err, count) => {
     if (err) return console.err(err);
 
-    if (posts) res.json({ posts: posts });
-    else res.json({});
+    if (count) res.json({ count });
+    else res.json({ count: 0 });
   });
 });
 

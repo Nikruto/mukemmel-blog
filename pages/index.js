@@ -1,32 +1,62 @@
 import React from 'react';
-import fetch from 'isomorphic-unfetch';
+import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
 
 import Hero from '../components/Hero.js';
+import Pagination from '../components/Pagination.js';
+
 import bookmarkParser from '../src/bookmarkParser.js';
 import dateToTurkish from '../src/dateToTurkish.js';
 
-import '../styles/main.css';
-
 import notBookmarked from '../src/img/bookmark1.png';
 import bookmarked from '../src/img/bookmark2.png';
+
+import '../styles/main.css';
+
+const POSTPERPAGE = 2;
 class Home extends React.Component {
   constructor() {
     super();
     this.posts = [];
-    this.state = {};
+    this.scrollCache = [];
+    this.state = {
+      currentPage: 1,
+      pageCount: 0,
+      postCount: 0
+    };
   }
 
-  async componentDidMount() {
-    const res = await fetch('http://localhost:3000/api/posts');
-    const json = await res.json();
-    json.posts.forEach(element => {
+  OnClickPage = async index => {
+    this.scrollCache[this.state.currentPage - 1] = window.scrollY;
+    let res = await axios(
+      `/api/posts?from=${index * POSTPERPAGE + 1}&to=${(index + 1) *
+        POSTPERPAGE}`
+    );
+    this.posts = res.data.posts;
+    this.posts.forEach(element => {
       element.isBookmarked = bookmarkParser.isBookmarked(element.slug);
     });
-    this.posts = json.posts;
-    this.setState({});
+    await this.setState({ currentPage: index + 1 });
+    window.scrollTo(0, this.scrollCache[index]);
+  };
+
+  async componentDidMount() {
+    let res = await axios('/api/postcount');
+    let postCount = res.data.count;
+    let pageCount = Math.ceil(postCount / POSTPERPAGE);
+
+    res = await axios(`/api/posts?from=1&to=${POSTPERPAGE}`);
+    this.posts = res.data.posts;
+
+    this.posts.forEach(element => {
+      element.isBookmarked = bookmarkParser.isBookmarked(element.slug);
+    });
+    for (let i = 0; i < pageCount; i++) {
+      this.scrollCache.push(0);
+    }
+
+    this.setState({ pageCount, postCount });
   }
 
   render() {
@@ -80,6 +110,11 @@ class Home extends React.Component {
             </div>
           ))}
         </div>
+        <Pagination
+          count={this.state.pageCount}
+          OnClickPage={this.OnClickPage}
+          currentPage={this.state.currentPage}
+        />
       </div>
     );
   }
