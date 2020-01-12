@@ -1,0 +1,269 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.Dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.Dashboard .Topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.Dashboard .Topbar h1 {
+  font-size: 20px;
+  font-family: 'Nunito Sans';
+  margin: 10px 10px 10px 20px;
+}
+
+.Dashboard .Topbar .Profile {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.Dashboard .Topbar .Profile h1 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.Dashboard .Topbar .Profile img {
+  background-color: gray;
+  border-radius: 50%;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.Dashboard .Topbar .Profile svg {
+  width: 15px;
+  height: 15px;
+}
+
+.Dashboard .DashContent {
+  display: flex;
+  flex: 1;
+}
+
+.Dashboard .DashContent .SideNav {
+  box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.Dashboard .DashContent .SideNav .Tabs {
+  margin-top: 25px;
+}
+
+.Dashboard .DashContent .SideNav .Tabs .Tab {
+  margin-left: 15px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.Dashboard .DashContent .SideNav .Tabs .Tab .Wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2px 0 2px 0px;
+}
+
+.Dashboard .DashContent .SideNav .Tabs .Tab h1 {
+  font-weight: 600;
+  font-family: 'Nunito Sans';
+  font-size: 14px;
+  color: gray;
+  margin-left: 10px;
+  margin-right: 70px;
+}
+
+.Dashboard .DashContent .SideNav .Tabs .Tab svg {
+  margin-right: 5px;
+  margin-left: 15px;
+}
+
+.Dashboard .DashContent .SideNav .Tabs .Tab:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+#TabActive {
+  background: linear-gradient(to left, #7474bf, #348ac7);
+}
+
+#TabActive .Wrapper svg {
+  color: white;
+}
+
+#TabActive .Wrapper h1 {
+  color: white;
+}
+
+.Dashboard .DashContent .Content {
+  flex: 1;
+  background-color: #f0f4f6;
+}
+
+.CreatePost {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 40px 40px 0px 40px;
+}
+
+.CreatePost .TopButtons {
+  display: flex;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+.CreatePost .TopButtons .Publish {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px 0px rgba(0, 0, 0, 0.1);
+}
+
+.CreatePost .TopButtons .Publish:hover {
+  cursor: pointer;
+}
+
+.CreatePost .TopButtons .Publish .Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.CreatePost .TopButtons .Publish .Wrapper svg {
+  margin-right: 5px;
+  margin-left: 25px;
+  color: #0cb896;
+}
+
+.CreatePost .TopButtons .Publish .Wrapper h1 {
+  margin-left: 5px;
+  margin-right: 25px;
+  font-weight: 400;
+  color: gray;
+  font-family: 'Nunito Sans';
+  font-size: 18px;
+}
+
+.CreatePost .TopButtons .Preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  background-color: white;
+  border-radius: 5px;
+  margin-right: 20px;
+  box-shadow: 0 4px 12px 0px rgba(0, 0, 0, 0.1);
+}
+
+.CreatePost .TopButtons .Preview:hover {
+  cursor: pointer;
+}
+
+.CreatePost .TopButtons .Preview .Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.CreatePost .TopButtons .Preview .Wrapper svg {
+  margin-right: 5px;
+  margin-left: 25px;
+  color: #355ef1;
+}
+
+.CreatePost .TopButtons .Preview .Wrapper h1 {
+  margin-left: 5px;
+  margin-right: 25px;
+  font-weight: 400;
+  color: gray;
+  font-family: 'Nunito Sans';
+  font-size: 18px;
+}
+
+.CreatePost .MidContent {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.CreatePost .TextEditor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-right: 60px;
+  background-color: white;
+}
+
+.CreatePost .TextEditor .TextSettings {
+  flex: 1;
+  display: flex;
+  background-color: white;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05);
+  z-index: 4;
+}
+
+.CreatePost .TextEditor .TextSettings select {
+  margin: 10px;
+  border: none;
+  font-size: 18px;
+  padding: 5px 15px 5px 5px;
+}
+
+.CreatePost .TextEditor .TextSettings select:focus {
+  outline: none;
+}
+
+.CreatePost .TextEditor .TitleSection {
+  flex: 1;
+  display: flex;
+}
+.CreatePost .TextEditor .TitleSection textarea {
+  resize: none;
+  border: none;
+  flex: 1;
+  height: 60px;
+}
+
+.CreatePost .PostSettings {
+  display: flex;
+  box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+  background-color: white;
+}
+
+.CreatePost .PostSettings .Top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 80px 0px 80px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.CreatePost .PostSettings .Top svg {
+  color: purple;
+  margin-right: 5px;
+}
+
+.CreatePost .PostSettings .Top h1 {
+  font-size: 18px;
+  font-family: 'Nunito Sans';
+  color: gray;
+}

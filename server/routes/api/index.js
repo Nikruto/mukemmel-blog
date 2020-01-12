@@ -2,11 +2,12 @@ const express = require('express');
 const route = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../../models/post.js');
+const authRouter = require('./auth/index.js');
 
+route.use('/auth', authRouter);
 route.get('/posts', (req, res) => {
   if (req.query.from && req.query.to) {
     let { from, to } = req.query;
-    console.log(from, to);
     Post.find({})
       .sort({ date: -1 })
       .skip(from - 1)

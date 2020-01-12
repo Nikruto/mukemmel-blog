@@ -23,16 +23,21 @@ class Home extends React.Component {
     this.state = {
       currentPage: 1,
       pageCount: 0,
-      postCount: 0
+      postCount: 0,
+      isLoading: true
     };
   }
 
   OnClickPage = async index => {
+    if (index == this.state.currentPage - 1) return;
+
     this.scrollCache[this.state.currentPage - 1] = window.scrollY;
+    this.setState({ isLoading: true });
     let res = await axios(
       `/api/posts?from=${index * POSTPERPAGE + 1}&to=${(index + 1) *
         POSTPERPAGE}`
     );
+    this.setState({ isLoading: false });
     this.posts = res.data.posts;
     this.posts.forEach(element => {
       element.isBookmarked = bookmarkParser.isBookmarked(element.slug);
@@ -56,7 +61,7 @@ class Home extends React.Component {
       this.scrollCache.push(0);
     }
 
-    this.setState({ pageCount, postCount });
+    this.setState({ pageCount, postCount, isLoading: false });
   }
 
   render() {
@@ -68,53 +73,58 @@ class Home extends React.Component {
         </Head>
 
         <Hero />
-
-        <div className="blog-list">
-          {this.posts.map(post => (
-            <div key={post.slug} className="blog">
-              <div className="blog-wrapper">
-                <div className="head">
-                  <h2 className="blog-title">
+        {this.state.isLoading == true ? (
+          <div className="LoadingWrapper"></div>
+        ) : (
+          <div className="blog-list">
+            {this.posts.map(post => (
+              <div key={post.slug} className="blog">
+                <div className="blog-wrapper">
+                  <div className="head">
+                    <h2 className="blog-title">
+                      <Link href={post.slug}>
+                        <a className="blog-title-link">{post.title}</a>
+                      </Link>
+                    </h2>
+                    <div className="bookmark-wrapper">
+                      <img
+                        className="bookmark"
+                        src={post.isBookmarked ? bookmarked : notBookmarked}
+                        onClick={() => {
+                          //console.log(post.isBookmarked);
+                          if (post.isBookmarked) {
+                            bookmarkParser.removeBookmark(post.slug);
+                          } else {
+                            bookmarkParser.addBookmark(post.slug);
+                          }
+                          post.isBookmarked = !post.isBookmarked;
+                          this.setState({});
+                        }}
+                      ></img>
+                    </div>
+                  </div>
+                  <div className="blog-text">
                     <Link href={post.slug}>
-                      <a className="blog-title-link">{post.title}</a>
+                      <a>
+                        <p>{post.shortDesc}</p>
+                      </a>
                     </Link>
-                  </h2>
-                  <div className="bookmark-wrapper">
-                    <img
-                      className="bookmark"
-                      src={post.isBookmarked ? bookmarked : notBookmarked}
-                      onClick={() => {
-                        //console.log(post.isBookmarked);
-                        if (post.isBookmarked) {
-                          bookmarkParser.removeBookmark(post.slug);
-                        } else {
-                          bookmarkParser.addBookmark(post.slug);
-                        }
-                        post.isBookmarked = !post.isBookmarked;
-                        this.setState({});
-                      }}
-                    ></img>
+                  </div>
+                  <div className="blog-date">
+                    {dateToTurkish(new Date(post.date))}
                   </div>
                 </div>
-                <div className="blog-text">
-                  <Link href={post.slug}>
-                    <a>
-                      <p>{post.shortDesc}</p>
-                    </a>
-                  </Link>
-                </div>
-                <div className="blog-date">
-                  {dateToTurkish(new Date(post.date))}
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <Pagination
-          count={this.state.pageCount}
-          OnClickPage={this.OnClickPage}
-          currentPage={this.state.currentPage}
-        />
+            ))}
+          </div>
+        )}
+        {this.state.isLoading == true ? null : (
+          <Pagination
+            count={this.state.pageCount}
+            OnClickPage={this.OnClickPage}
+            currentPage={this.state.currentPage}
+          />
+        )}
       </div>
     );
   }
