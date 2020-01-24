@@ -3,16 +3,23 @@ import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import Hero from '../components/Hero.js';
-import Pagination from '../components/Pagination.js';
+import Hero from '../components/Hero/Hero.js';
+import PostViewer from '../components/PostViewer/PostViewer.js';
+import Pagination from '../components/Pagination/Pagination.js';
 
-import bookmarkParser from '../src/bookmarkParser.js';
+import { isBookmarked } from '../src/bookmarkParser.js';
 import dateToTurkish from '../src/dateToTurkish.js';
 
 import notBookmarked from '../src/img/bookmark1.png';
 import bookmarked from '../src/img/bookmark2.png';
 
 import '../styles/main.css';
+import {
+  Container,
+  BlogList,
+  PostViewerWrapper,
+  PaginationWrapper
+} from '../styles/views/index/style.js';
 
 const POSTPERPAGE = 2;
 class Home extends React.Component {
@@ -40,7 +47,7 @@ class Home extends React.Component {
     this.setState({ isLoading: false });
     this.posts = res.data.posts;
     this.posts.forEach(element => {
-      element.isBookmarked = bookmarkParser.isBookmarked(element.slug);
+      element.isBookmarked = isBookmarked(element.slug);
     });
     await this.setState({ currentPage: index + 1 });
     window.scrollTo(0, this.scrollCache[index]);
@@ -55,7 +62,7 @@ class Home extends React.Component {
     this.posts = res.data.posts;
 
     this.posts.forEach(element => {
-      element.isBookmarked = bookmarkParser.isBookmarked(element.slug);
+      element.isBookmarked = isBookmarked(element.slug);
     });
     for (let i = 0; i < pageCount; i++) {
       this.scrollCache.push(0);
@@ -66,7 +73,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <Head>
           <title>Home</title>
           <link rel="icon" href="/favicon.ico" />
@@ -76,56 +83,32 @@ class Home extends React.Component {
         {this.state.isLoading == true ? (
           <div className="LoadingWrapper"></div>
         ) : (
-          <div className="blog-list">
+          <BlogList>
             {this.posts.map(post => (
-              <div key={post.slug} className="blog">
-                <div className="blog-wrapper">
-                  <div className="head">
-                    <h2 className="blog-title">
-                      <Link href={post.slug}>
-                        <a className="blog-title-link">{post.title}</a>
-                      </Link>
-                    </h2>
-                    <div className="bookmark-wrapper">
-                      <img
-                        className="bookmark"
-                        src={post.isBookmarked ? bookmarked : notBookmarked}
-                        onClick={() => {
-                          //console.log(post.isBookmarked);
-                          if (post.isBookmarked) {
-                            bookmarkParser.removeBookmark(post.slug);
-                          } else {
-                            bookmarkParser.addBookmark(post.slug);
-                          }
-                          post.isBookmarked = !post.isBookmarked;
-                          this.setState({});
-                        }}
-                      ></img>
-                    </div>
-                  </div>
-                  <div className="blog-text">
-                    <Link href={post.slug}>
-                      <a>
-                        <p>{post.shortDesc}</p>
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="blog-date">
-                    {dateToTurkish(new Date(post.date))}
-                  </div>
-                </div>
-              </div>
+              <PostViewerWrapper key={post.slug}>
+                <PostViewer
+                  key={post.slug}
+                  post={{
+                    ...post,
+                    text: post.shortDesc,
+                    link: `/${post.slug}`,
+                    useBookmark: true
+                  }}
+                />
+              </PostViewerWrapper>
             ))}
-          </div>
+          </BlogList>
         )}
         {this.state.isLoading == true ? null : (
-          <Pagination
-            count={this.state.pageCount}
-            OnClickPage={this.OnClickPage}
-            currentPage={this.state.currentPage}
-          />
+          <PaginationWrapper>
+            <Pagination
+              count={this.state.pageCount}
+              OnClickPage={this.OnClickPage}
+              currentPage={this.state.currentPage}
+            />
+          </PaginationWrapper>
         )}
-      </div>
+      </Container>
     );
   }
 }

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faEye } from '@fortawesome/free-solid-svg-icons';
 import '../../styles/dashboard.css';
 
-import CreatePost from '../../components/CreatePost.js';
+import CreatePost from '../../components/Admin/CreatePost/CreatePost.js';
 
 class Dashboard extends React.Component {
   constructor() {

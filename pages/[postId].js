@@ -2,15 +2,22 @@ import React from 'react';
 import fetch from 'isomorphic-unfetch';
 import Head from 'next/head';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
 
-import Hero from '../components/Hero.js';
-import bookmarkParser from '../src/bookmarkParser.js';
-import dateToTurkish from '../src/dateToTurkish.js';
+import Hero from '../components/Hero/Hero.js';
+import {
+  isBookmarked,
+  addBookmark,
+  removeBookmark
+} from '../src/bookmarkParser.js';
+
+import PostViewer from '../components/PostViewer/PostViewer.js';
 
 import '../styles/main.css';
-import notBookmarked from '../src/img/bookmark1.png';
-import bookmarked from '../src/img/bookmark2.png';
+
+import {
+  Container,
+  PostViewerWrapper
+} from '../styles/views/[postId]/style.js';
 
 class BlogPost extends React.Component {
   constructor(props) {
@@ -28,12 +35,12 @@ class BlogPost extends React.Component {
 
     const json = await res.json();
     this.post = json.post;
-    this.post.isBookmarked = bookmarkParser.isBookmarked(this.post.slug);
+    this.post.isBookmarked = isBookmarked(this.post.slug);
     this.setState({ isLoading: false });
   }
   render() {
     return (
-      <div className="container">
+      <Container>
         <Head>
           <title>Home</title>
           <link rel="icon" href="/favicon.ico" />
@@ -45,45 +52,20 @@ class BlogPost extends React.Component {
         ) : (
           <div>
             {this.post ? (
-              <div className="blog">
-                <div className="blog-wrapper">
-                  <div className="head">
-                    <h2 className="blog-title">
-                      <Link href={`/${this.post.slug}`}>
-                        <a className="blog-title-link">{this.post.title}</a>
-                      </Link>
-                    </h2>
-                    <div className="bookmark-wrapper">
-                      <img
-                        className="bookmark"
-                        src={
-                          this.post.isBookmarked ? bookmarked : notBookmarked
-                        }
-                        onClick={() => {
-                          //console.log(post.isBookmarked);
-                          if (this.post.isBookmarked) {
-                            bookmarkParser.removeBookmark(this.post.slug);
-                          } else {
-                            bookmarkParser.addBookmark(this.post.slug);
-                          }
-                          this.post.isBookmarked = !this.post.isBookmarked;
-                          this.setState({});
-                        }}
-                      ></img>
-                    </div>
-                  </div>
-                  <div className="blog-text">
-                    <p>{this.post.details}</p>
-                  </div>
-                  <div className="blog-date">
-                    {dateToTurkish(new Date(this.post.date))}
-                  </div>
-                </div>
-              </div>
+              <PostViewerWrapper>
+                <PostViewer
+                  fullPage={true}
+                  post={{
+                    ...this.post,
+                    text: this.post.details,
+                    useBookmark: true
+                  }}
+                />
+              </PostViewerWrapper>
             ) : null}
           </div>
         )}
-      </div>
+      </Container>
     );
   }
 }
