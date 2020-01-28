@@ -1,13 +1,15 @@
 const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
-const PORT = process.env.PORT || 3000;
+const dotenv = require('dotenv');
+dotenv.config();
+
 const dev = process.env_NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const connString =
-  'mongodb+srv://disleem:temp1415@cluster0-qlkbr.mongodb.net/mukemmel-blog?retryWrites=true&w=majority';
+const PORT = process.env.PORT || 3000;
+const connString = process.env.MONGO;
 
 mongoose.connect(connString, err => {
   if (err) console.error(err);

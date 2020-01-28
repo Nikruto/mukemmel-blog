@@ -1,7 +1,10 @@
-import Reat from 'react';
+import React from 'react';
 
-import '../styles/main.css';
-
+import {
+  PaginationContainer,
+  PageCounter,
+  ActivePageCounter
+} from './style.js';
 class Pagination extends React.Component {
   constructor(props) {
     super(props);
@@ -14,17 +17,17 @@ class Pagination extends React.Component {
     let pageButtons = [];
     for (let i = 0; i < this.props.count; i++) {
       pageButtons.push(
-        <div
+        <PageCounter
+          key={i}
           onClick={() => this.handleClick(i)}
-          id={this.props.currentPage == i + 1 ? 'PaginationActivePage' : ''}
-          className="PageCounter"
+          isActive={this.props.currentPage == i + 1}
         >
           {i + 1}
-        </div>
+        </PageCounter>
       );
     }
 
-    return <div className="Pagination">{pageButtons}</div>;
+    return <PaginationContainer>{pageButtons}</PaginationContainer>;
   }
 }
 

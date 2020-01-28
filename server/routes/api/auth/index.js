@@ -5,7 +5,7 @@ const route = express.Router();
 const User = require('../../../models/user.js');
 const verifyMiddleware = require('./verifyMiddleware.js');
 
-const config = require('../../../config.json');
+const jwtSecret = process.env.JWT;
 
 route.get('/login', (req, res) => {
   try {
@@ -26,7 +26,7 @@ route.get('/login', (req, res) => {
             name: user.name,
             username: user.username
           },
-          config.jwtSecret
+          jwtSecret
         );
         return res.status(200).json({ token });
       } else {

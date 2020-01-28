@@ -3,8 +3,10 @@ const route = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../../models/post.js');
 const authRouter = require('./auth/index.js');
+const adminRouter = require('./admin/index.js');
 
 route.use('/auth', authRouter);
+route.use('/admin',adminRouter);
 route.get('/posts', (req, res) => {
   if (req.query.from && req.query.to) {
     let { from, to } = req.query;
