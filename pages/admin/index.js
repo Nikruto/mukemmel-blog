@@ -10,6 +10,9 @@ import CreatePost from '../../components/Admin/CreatePost/CreatePost.js';
 import Login from '../../components/Admin/Login/Login.js';
 
 class Dashboard extends React.Component {
+  static async getInitialProps(ctx) {
+    return {};
+  }
   constructor() {
     super();
     this.tabInfos = [
