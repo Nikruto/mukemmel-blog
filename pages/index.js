@@ -64,12 +64,12 @@ class Home extends React.Component {
         POSTPERPAGE}`
     );
     this.setState({ isLoading: false });
-    this.posts = res.data.posts;
-    this.posts.forEach(element => {
+    let posts = res.data.posts;
+    posts.forEach(element => {
       element.isBookmarked = isBookmarked(element.slug);
     });
-    await this.setState({ currentPage: index + 1 });
-    window.scrollTo(0, this.scrollCache[index]);
+    await this.setState({ currentPage: index + 1, posts });
+    window.scrollTo(0, this.state.scrollCache[index]);
   };
 
   async componentDidMount() {
