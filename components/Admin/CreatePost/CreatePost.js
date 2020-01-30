@@ -95,9 +95,19 @@ class CreatePost extends React.Component {
       };
       axios
         .post('/api/admin/createpost', postData)
-        .then(res => {})
+        .then(res => {
+          this.setState({ isAttemptingToSend: false });
+          if (res.data.success === false) {
+            window.alert(res.data.msg);
+          } else {
+            window.alert('Yeni Post Oluşturuldu');
+            let urlToOpen = `http://${window.location.host}/${postData.slug}`;
+            var win = window.open(urlToOpen, '_blank');
+            win.focus();
+          }
+        })
         .catch(err => {
-          cookies.rem;
+          Cookies.remove('token');
         });
     }
   }
@@ -247,6 +257,7 @@ class CreatePost extends React.Component {
               value={this.state.postInput.title}
               onChange={e => this.onPostInputChange(e, 'title')}
               placeholder="Başlık"
+              disabled={this.state.isAttemptingToSend}
             />
             <EditorStyleContainer>
               <Editor
