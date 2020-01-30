@@ -40,7 +40,7 @@ class BlogPost extends React.Component {
 
   async componentDidMount() {
     let post = this.props.post;
-    post.isBookmarked = false;
+    post.isBookmarked = isBookmarked(post.slug);
     this.setState({ isLoading: false, post: post });
   }
   render() {
