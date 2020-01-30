@@ -97,7 +97,7 @@ class CreatePost extends React.Component {
         .post('/api/admin/createpost', postData)
         .then(res => {})
         .catch(err => {
-          cookies.rem;
+          Cookies.remove('token');
         });
     }
   }
