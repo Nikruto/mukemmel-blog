@@ -30,7 +30,7 @@ class BlogPost extends React.Component {
 
   async componentDidMount() {
     const res = await fetch(
-      `http://localhost:3000/api/post/${this.props.postId}`
+      `http://${window.location.host}/api/post/${this.props.postId}`
     );
 
     const json = await res.json();
