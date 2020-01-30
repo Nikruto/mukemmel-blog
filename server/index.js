@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 dotenv.config();
 
-const dev = process.env_NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server/index.js",
-    "start": "NODE_ENV=production node server/index.js"
+    "build": "next build",
+    "start": "node server/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
