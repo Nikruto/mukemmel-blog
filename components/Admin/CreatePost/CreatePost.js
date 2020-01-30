@@ -109,7 +109,7 @@ class CreatePost extends React.Component {
           }
         })
         .catch(err => {
-          Cookies.remove('token');
+          window.alert('Yetkilendirme veya server hatası');
         });
     }
   }
