@@ -110,6 +110,7 @@ class CreatePost extends React.Component {
         })
         .catch(err => {
           window.alert('Yetkilendirme veya server hatası');
+          this.setState({ isAttemptingToSend: false });
         });
     }
   }
