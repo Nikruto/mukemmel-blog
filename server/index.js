@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 dotenv.config();
 
 const dev = process.env_NODE_ENV !== 'production';
@@ -22,7 +23,7 @@ app
 
     server.use(express.urlencoded({ extended: true }));
     server.use(express.json());
-
+    server.use(cookieParser());
     server.use('/api', apiRoute);
 
     server.get('*', (req, res) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
-import {styleMap,blockRenderMap, blockStyleFn} from './editorStyles.js';
+import { styleMap, blockRenderMap, blockStyleFn } from './editorStyles.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -41,8 +41,6 @@ const Editor = dynamic(
   }
 );
 
-
-
 import Draft, { EditorState, convertToRaw, RichUtils } from 'draft-js';
 
 class CreatePost extends React.Component {
@@ -50,13 +48,13 @@ class CreatePost extends React.Component {
     super();
     this.state = {
       editorState: EditorState.createEmpty(),
-      postInput:{
-        title:'',
-        slug:'',
-        imageLink:''
+      postInput: {
+        title: '',
+        slug: '',
+        imageLink: ''
       },
-      errors:{},
-      isAttemptingToSend:false
+      errors: {},
+      isAttemptingToSend: false
     };
 
     this.updateEditorState = this.updateEditorState.bind(this);
@@ -67,52 +65,47 @@ class CreatePost extends React.Component {
     this.displayErrors = this.displayErrors.bind(this);
   }
 
-  displayErrors(){
+  displayErrors() {}
 
-  }
+  onSaveButton() {
+    if (this.state.isAttemptingToSend == true) return;
 
-  onSaveButton(){
-    if(this.state.isAttemptingToSend == true)
-      return;
+    this.setState({ isAttemptingToSend: true });
 
-
-    this.setState({isAttemptingToSend:true});
-    
     let errors = {};
-    const {title,slug} = this.state.postInput;
+    const { title, slug } = this.state.postInput;
 
-    if(title.trim().length === 0)
-        errors.title = "Başlık boş bırakılamaz";
+    if (title.trim().length === 0) errors.title = 'Başlık boş bırakılamaz';
 
-    if(slug.trim().length === 0)
-       errors.slug = "Slug boş bırakılamaz";
+    if (slug.trim().length === 0) errors.slug = 'Slug boş bırakılamaz';
 
-    if(Object.keys(errors).length != 0)
-    {
-      this.setState({isAttemptingToSend:false,errors });
+    if (Object.keys(errors).length != 0) {
+      this.setState({ isAttemptingToSend: false, errors });
       this.displayErrors(errors);
       return;
-    }else{
-    this.setState({errors:[]});
-    //const token = localStorage.getItem("jwtToken");
-    //Geçici olarak sabit bir token
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRW1yZSIsInVzZXJuYW1lIjoiYWIxMjMiLCJpYXQiOjE1ODAyNDA5MTN9.FAXtvyf8X-pnnqMxunk4wVNymVEmjqqUcJxTHiHKKTk";
-    let postData = {
-      title:this.state.postInput.title,
-      slug:this.state.postInput.slug,
-      imageLink:this.state.postInput.imageLink,
-      details:JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
-    };
-    axios.post("/api/admin/createpost",postData,{
-      headers:{
-        'Authorization':token
-      }
-    }).then(res => {}).catch(err => {});
+    } else {
+      this.setState({ errors: [] });
+      let postData = {
+        title: this.state.postInput.title,
+        slug: this.state.postInput.slug,
+        imageLink: this.state.postInput.imageLink,
+        details: JSON.stringify(
+          convertToRaw(this.state.editorState.getCurrentContent())
+        )
+      };
+      axios
+        .post('/api/admin/createpost', postData)
+        .then(res => {})
+        .catch(err => {
+          cookies.rem;
+        });
     }
   }
 
-  onPostInputChange(e,name){
-    this.setState({postInput:{...this.state.postInput,[name]:e.target.value}});
+  onPostInputChange(e, name) {
+    this.setState({
+      postInput: { ...this.state.postInput, [name]: e.target.value }
+    });
   }
 
   handleReturn(e) {
@@ -250,7 +243,11 @@ class CreatePost extends React.Component {
                 </StyleButton>
               </StyleButtons>
             </EditorToolbar>
-            <EditorTitle value={this.state.postInput.title} onChange={(e) => this.onPostInputChange(e,"title")} placeholder="Başlık" />
+            <EditorTitle
+              value={this.state.postInput.title}
+              onChange={e => this.onPostInputChange(e, 'title')}
+              placeholder="Başlık"
+            />
             <EditorStyleContainer>
               <Editor
                 customStyleMap={styleMap}
@@ -279,10 +276,25 @@ class CreatePost extends React.Component {
             </OptionsHead>
             <OptionsMid>
               <OptionsLabel>Slug</OptionsLabel>
-              <OptionsInput disabled={this.state.isAttemptingToSend} value={this.state.postInput.slug} onChange={(e) => this.onPostInputChange(e,"slug")} type="text"/>
+              <OptionsInput
+                disabled={this.state.isAttemptingToSend}
+                value={this.state.postInput.slug}
+                onChange={e => this.onPostInputChange(e, 'slug')}
+                type="text"
+              />
               <OptionsLabel>Resim Linki</OptionsLabel>
-              <OptionsInput disabled={this.state.isAttemptingToSend} value={this.state.postInput.imageLink} onChange={(e) => this.onPostInputChange(e,"imageLink")} type="text"/>
-              <OptionsSendButton disabled={this.state.isAttemptingToSend} onClick={() => this.onSaveButton()}>Kaydet</OptionsSendButton>
+              <OptionsInput
+                disabled={this.state.isAttemptingToSend}
+                value={this.state.postInput.imageLink}
+                onChange={e => this.onPostInputChange(e, 'imageLink')}
+                type="text"
+              />
+              <OptionsSendButton
+                disabled={this.state.isAttemptingToSend}
+                onClick={() => this.onSaveButton()}
+              >
+                Kaydet
+              </OptionsSendButton>
             </OptionsMid>
           </OptionsContainer>
         </InnerContainer>

@@ -1,7 +1,12 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import {styleMap, blockRenderMap, blockStyleFn, EditorStyleContainer} from '../Admin/CreatePost/editorStyles.js';
+import {
+  styleMap,
+  blockRenderMap,
+  blockStyleFn,
+  EditorStyleContainer
+} from '../Admin/CreatePost/editorStyles.js';
 import dateToTurkish from '../../src/dateToTurkish.js';
 import { addBookmark, removeBookmark } from '../../src/bookmarkParser.js';
 
@@ -9,7 +14,7 @@ import notBookmarkedImg from '../../src/img/bookmark1.png';
 import bookmarkedImg from '../../src/img/bookmark2.png';
 
 const Editor = dynamic(
-  import('draft-js-plugins-editor').then(module => module),
+  import('draft-js').then(module => module.Editor),
   {
     ssr: false
   }
@@ -77,10 +82,14 @@ class PostViewer extends React.Component {
         </PostHead>
         <PostText>
           <EditorStyleContainer>
-          <Editor customStyleMap={styleMap}
-                blockRenderMap={blockRenderMap}
-                blockStyleFn={blockStyleFn} editorState={this.state.editorState} readOnly={true} />
-                </EditorStyleContainer>
+            <Editor
+              customStyleMap={styleMap}
+              blockRenderMap={blockRenderMap}
+              blockStyleFn={blockStyleFn}
+              editorState={this.state.editorState}
+              readOnly={true}
+            />
+          </EditorStyleContainer>
         </PostText>
       </PostViewerContainer>
     );
