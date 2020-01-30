@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -80,6 +81,10 @@ class Login extends React.Component {
   render() {
     return (
       <LoginContainer>
+        <Head>
+          <title>Dashboard</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <MainContainer>
           <Title>Giriş Yap</Title>
           <TextInput
