@@ -13,7 +13,6 @@ import dateToTurkish from '../src/dateToTurkish.js';
 import notBookmarked from '../src/img/bookmark1.png';
 import bookmarked from '../src/img/bookmark2.png';
 
-import '../styles/main.css';
 import {
   Container,
   BlogList,

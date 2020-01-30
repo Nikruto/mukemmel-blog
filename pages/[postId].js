@@ -12,8 +12,6 @@ import {
 
 import PostViewer from '../components/PostViewer/PostViewer.js';
 
-import '../styles/main.css';
-
 import {
   Container,
   PostViewerWrapper

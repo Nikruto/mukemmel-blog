@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
+import App from 'next/app';
+import { createGlobalStyle } from 'styled-components';
+const GlobalStyle = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
 
 p {
   font-family: 'Nunito Sans';
@@ -32,3 +35,19 @@ a {
     transform: rotate(360deg);
   }
 }
+
+`;
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+    return (
+      <>
+        <GlobalStyle />
+
+        <Component {...pageProps} />
+      </>
+    );
+  }
+}
+
+export default MyApp;
