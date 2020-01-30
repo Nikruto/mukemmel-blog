@@ -27,9 +27,9 @@ class BlogPost extends React.Component {
   }
 
   async componentDidMount() {
-    const protocol = window.location.hostname == 'localhost' ? 'http' : 'https';
+    const protocol = window.location.protocol;
     const res = await fetch(
-      `${protocol}://${window.location.host}/api/post/${this.props.postId}`
+      `${protocol}//${window.location.host}/api/post/${this.props.postId}`
     );
 
     const json = await res.json();

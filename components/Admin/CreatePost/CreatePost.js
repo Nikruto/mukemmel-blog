@@ -100,10 +100,9 @@ class CreatePost extends React.Component {
           if (res.data.success === false) {
             window.alert(res.data.msg);
           } else {
-            const protocol =
-              window.location.hostname == 'localhost' ? 'http' : 'https';
+            const protocol = window.location.protocol;
             window.alert('Yeni Post Oluşturuldu');
-            let urlToOpen = `${protocol}://${window.location.host}/${postData.slug}`;
+            let urlToOpen = `${protocol}//${window.location.host}/${postData.slug}`;
             var win = window.open(urlToOpen, '_blank');
             win.focus();
           }
