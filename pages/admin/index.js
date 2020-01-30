@@ -32,7 +32,15 @@ class Dashboard extends React.Component {
   }
 
   onLogin() {
-    this.setState({ isLoggedIn: true });
+    const decodedUser = jwtDecode(Cookies.get('token'));
+    this.setState({
+      isLoggedIn: true,
+      user: {
+        name: decodedUser.name,
+        username: decodedUser.username,
+        imageUrl: decodedUser.imageUrl
+      }
+    });
   }
 
   componentDidMount() {
@@ -43,7 +51,6 @@ class Dashboard extends React.Component {
           if (res.data.success === true) {
             this.setState({ isLoggedIn: true });
             const decodedUser = jwtDecode(Cookies.get('token'));
-            console.log(decodedUser);
             this.setState({
               user: {
                 name: decodedUser.name,
