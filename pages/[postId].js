@@ -2,6 +2,8 @@ import React from 'react';
 import fetch from 'isomorphic-unfetch';
 import Head from 'next/head';
 import Link from 'next/link';
+import absoluteUrl from 'next-absolute-url';
+import axios from 'axios';
 
 import Hero from '../components/Hero/Hero.js';
 import {
@@ -18,24 +20,28 @@ import {
 } from '../styles/views/[postId]/style.js';
 
 class BlogPost extends React.Component {
+  static async getInitialProps({ req, query }) {
+    let postId = query.postId;
+    const { protocol, host } = absoluteUrl(req);
+    const baseUrl = `${protocol}//${host}`;
+
+    let res = await axios(`${baseUrl}/api/post/${postId}`);
+    let post = res.data.post;
+
+    return { postId: query.postId, post };
+  }
   constructor(props) {
     super(props);
-    this.post = null;
     this.state = {
-      isLoading: true
+      isLoading: true,
+      post: null
     };
   }
 
   async componentDidMount() {
-    const protocol = window.location.protocol;
-    const res = await fetch(
-      `${protocol}//${window.location.host}/api/post/${this.props.postId}`
-    );
-
-    const json = await res.json();
-    this.post = json.post;
-    this.post.isBookmarked = isBookmarked(this.post.slug);
-    this.setState({ isLoading: false });
+    let post = this.props.post;
+    post.isBookmarked = false;
+    this.setState({ isLoading: false, post: post });
   }
   render() {
     return (
@@ -50,13 +56,13 @@ class BlogPost extends React.Component {
           <div className="LoadingWrapper"></div>
         ) : (
           <div>
-            {this.post ? (
+            {this.state.post ? (
               <PostViewerWrapper>
                 <PostViewer
                   fullPage={true}
                   post={{
-                    ...this.post,
-                    text: this.post.details,
+                    ...this.state.post,
+                    text: this.state.post.details,
                     useBookmark: true
                   }}
                 />
@@ -68,9 +74,5 @@ class BlogPost extends React.Component {
     );
   }
 }
-
-BlogPost.getInitialProps = ({ req, query }) => {
-  return { postId: query.postId };
-};
 
 export default BlogPost;

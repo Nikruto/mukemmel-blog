@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
+import absoluteUrl from 'next-absolute-url';
 
 import Hero from '../components/Hero/Hero.js';
 import PostViewer from '../components/PostViewer/PostViewer.js';
@@ -22,23 +23,42 @@ import {
 
 const POSTPERPAGE = 2;
 class Home extends React.Component {
-  constructor() {
-    super();
-    this.posts = [];
-    this.scrollCache = [];
+  static async getInitialProps({ req, query }) {
+    const { protocol, host } = absoluteUrl(req);
+    const baseUrl = `${protocol}//${host}`;
+    let res = await axios(`${baseUrl}/api/postcount`);
+    let postCount = res.data.count;
+    let pageCount = Math.ceil(postCount / POSTPERPAGE);
+
+    res = await axios(`${baseUrl}/api/posts?from=1&to=${POSTPERPAGE}`);
+    let posts = res.data.posts;
+    return { pageCount, postCount, posts };
+  }
+
+  constructor(props) {
+    super(props);
+    let { pageCount, postCount, posts } = this.props;
+    let scrollCache = [];
+
+    for (let i = 0; i < pageCount; i++) {
+      scrollCache.push(0);
+    }
+
     this.state = {
       currentPage: 1,
-      pageCount: 0,
-      postCount: 0,
-      isLoading: true
+      pageCount: pageCount,
+      postCount: postCount,
+      posts: [],
+      scrollCache: scrollCache,
+      isLoading: false
     };
   }
 
   OnClickPage = async index => {
     if (index == this.state.currentPage - 1) return;
-
-    this.scrollCache[this.state.currentPage - 1] = window.scrollY;
-    this.setState({ isLoading: true });
+    let scrollCache = this.state.scrollCache;
+    scrollCache[this.state.currentPage - 1] = window.scrollY;
+    this.setState({ isLoading: true, scrollCache });
     let res = await axios(
       `/api/posts?from=${index * POSTPERPAGE + 1}&to=${(index + 1) *
         POSTPERPAGE}`
@@ -53,21 +73,13 @@ class Home extends React.Component {
   };
 
   async componentDidMount() {
-    let res = await axios('/api/postcount');
-    let postCount = res.data.count;
-    let pageCount = Math.ceil(postCount / POSTPERPAGE);
+    let postsToBookmark = this.props.posts;
 
-    res = await axios(`/api/posts?from=1&to=${POSTPERPAGE}`);
-    this.posts = res.data.posts;
-
-    this.posts.forEach(element => {
+    postsToBookmark.forEach(element => {
       element.isBookmarked = isBookmarked(element.slug);
     });
-    for (let i = 0; i < pageCount; i++) {
-      this.scrollCache.push(0);
-    }
 
-    this.setState({ pageCount, postCount, isLoading: false });
+    this.setState({ posts: postsToBookmark });
   }
 
   render() {
@@ -83,7 +95,7 @@ class Home extends React.Component {
           <div className="LoadingWrapper"></div>
         ) : (
           <BlogList>
-            {this.posts.map(post => (
+            {this.state.posts.map(post => (
               <PostViewerWrapper key={post.slug}>
                 <PostViewer
                   key={post.slug}
