@@ -46,7 +46,7 @@ class PostViewer extends React.Component {
     };
   }
   onBookmarkClick(post) {
-    if (post.isBookmarked) {
+    if (this.state.isBookmarked) {
       removeBookmark(post.slug);
     } else {
       addBookmark(post.slug);
