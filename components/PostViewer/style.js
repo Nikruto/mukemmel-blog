@@ -12,18 +12,18 @@ export const PostViewerContainer = styled.div`
   border-radius: 6px;
 
   .DraftEditor-root {
-    display:flex;
-    flex:1;
+    display: flex;
+    flex: 1;
   }
 
   .DraftEditor-editorContainer {
     height: 100%;
-    width:100%;
+    width: 100%;
   }
 
   .public-DraftEditor-content {
     height: 100%;
-    width:100%;
+    width: 100%;
   }
 `;
 
@@ -65,7 +65,19 @@ export const PostImage = styled.img`
 `;
 
 export const PostText = styled.div`
-  margin-top:10px;
+  margin-top: 10px;
   font-size: 18px;
   font-family: 'Nunito Sans';
+`;
+
+export const ReadMoreText = styled.a`
+  font-family: 'Nunito Sans';
+  font-size: 18px;
+  font-weight: 800;
+  align-self: flex-end;
+  transition: 0.1s linear;
+  &:hover {
+    cursor: pointer;
+    color: #348ac7;
+  }
 `;

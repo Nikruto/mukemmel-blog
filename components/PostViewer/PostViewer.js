@@ -30,7 +30,8 @@ import {
   PostTitle,
   BookmarkImage,
   PostImage,
-  PostText
+  PostText,
+  ReadMoreText
 } from './style.js';
 
 class PostViewer extends React.Component {
@@ -91,6 +92,11 @@ class PostViewer extends React.Component {
             />
           </EditorStyleContainer>
         </PostText>
+        {!this.props.fullPage ? (
+          <Link href={this.props.post.link}>
+            <ReadMoreText>Devamını oku »</ReadMoreText>
+          </Link>
+        ) : null}
       </PostViewerContainer>
     );
   }
