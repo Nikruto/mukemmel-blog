@@ -2,20 +2,20 @@ import styled from 'styled-components';
 
 export const PaginationContainer = styled.div`
   display: flex;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const PageCounter = styled.div`
   font-family: 'Nunito Sans';
   font-weight: 600;
-  padding: 10px 20px 10px 20px;
-  background-color: ${props => (props.isActive ? '#35459e' : 'white')};
-  color: ${props => (props.isActive ? 'white' : '#35459e')};
+  padding: 5px 11px 5px 11px;
+  margin-right: 5px;
+  border-radius: 3px;
+  background-color: ${props => (props.isActive ? '#348ac7' : 'white')};
+  color: ${props => (props.isActive ? 'white' : 'black')};
+  transition: 0.25s ease-in-out;
   &:hover {
     cursor: pointer;
-  }
-  &:not(:first-child) {
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #348ac7;
+    color: white;
   }
 `;
