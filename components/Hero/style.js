@@ -22,3 +22,17 @@ export const HeroDescription = styled.p`
   font-family: 'Nunito Sans';
   font-weight: 300;
 `;
+
+export const SocialContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const SocialLink = styled.a`
+  margin-left: 5px;
+  margin-right: 5px;
+`;
+
+export const SocialImage = styled.img`
+  width: 30px;
+`;

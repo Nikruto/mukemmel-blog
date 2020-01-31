@@ -1,15 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 
-import mediumLogo from '../../src/img/logo/medium.png';
-import twitterLogo from '../../src/img/logo/twitter.png';
-import linkedinLogo from '../../src/img/logo/linkedin.png';
+import twitter from '../../src/img/logo/twitter.png';
+import instagram from '../../src/img/logo/instagram.png';
 
 import {
   HeroContainer,
   HeroTitle,
   HeroTitleLink,
-  HeroDescription
+  HeroDescription,
+  SocialContainer,
+  SocialLink,
+  SocialImage
 } from './style.js';
 
 class Hero extends React.Component {
@@ -26,8 +28,17 @@ class Hero extends React.Component {
           </Link>
         </HeroTitle>
         <HeroDescription>
-         Oyunları 🎮, Tersine mühendisliği ve kodlamayı seven bir öğrenci👨‍🎓
+          Oyunları 🎮, Tersine mühendisliği ve kodlamayı seven bir öğrenci👨‍🎓
         </HeroDescription>
+        <SocialContainer>
+          <SocialLink href="https://twitter.com/faennn" target="_blank">
+            <SocialImage src={twitter} />
+          </SocialLink>
+
+          <SocialLink href="https://instagram.com/neafle" target="_blank">
+            <SocialImage src={instagram} />
+          </SocialLink>
+        </SocialContainer>
       </HeroContainer>
     );
   }
