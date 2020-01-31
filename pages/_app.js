@@ -1,4 +1,5 @@
 import App from 'next/app';
+import Layout from '../components/layout.js';
 import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
@@ -43,8 +44,9 @@ class MyApp extends App {
     return (
       <>
         <GlobalStyle />
-
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </>
     );
   }

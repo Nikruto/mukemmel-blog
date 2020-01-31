@@ -5,7 +5,7 @@ Bloğun ilk hali için [buraya](https://github.com/selmanKahya/mukemmel-blog/) v
 ## Projeyi çalıştırmak için yapman gerekenler
 
 1. Projeyi clonela
-2. yarn komutu ile gerekli paketleri yükle 
+2. yarn komutu ile gerekli paketleri yükle
 3. [Gerekli ortam değişkenleri](#env)ni .env dosyasında tanımla
 4. yarn dev ile projeyi çalıştır
 
@@ -13,5 +13,5 @@ Bloğun ilk hali için [buraya](https://github.com/selmanKahya/mukemmel-blog/) v
 
 - MONGO : MongoDB veri tabanının bağlantı linki
 - JWT : JWT için herhangi bir şifre
+- GA : Google Analytics izleme kodu
 - PORT: Blog'un çalışmasını istediğin port (Zorunlu değil varsayılan 3000)
-
