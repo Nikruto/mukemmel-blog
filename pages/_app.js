@@ -2,8 +2,8 @@ import App from 'next/app';
 import Layout from '../components/layout.js';
 import { createGlobalStyle } from 'styled-components';
 import '../styles/main.css';
-const GlobalStyle = createGlobalStyle`
 
+const GlobalStyle = createGlobalStyle`
 p {
   font-family: 'Nunito Sans';
   font-weight: 400;
