@@ -1,8 +1,8 @@
 import App from 'next/app';
 import Layout from '../components/layout.js';
 import { createGlobalStyle } from 'styled-components';
+import '../styles/main.css';
 const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap');
 
 p {
   font-family: 'Nunito Sans';
